@@ -42,33 +42,41 @@
     position:relative;
   }
 
-  /* soft photographic-style backdrop, darkened for readability */
-  /* oversized + rotated via a scroll-linked CSS variable, scale gives buffer so rotation never exposes edges */
+  /* static readability overlay — does NOT rotate, always exactly viewport-sized */
   body::before{
     content:"";
     position:fixed;
     inset:0;
     z-index:-2;
-    transform-origin:center center;
-    transform:scale(1.6) rotate(var(--bg-rotate));
-    transition:transform 0.4s ease-out;
-    will-change:transform;
     background:linear-gradient(180deg, rgba(6,7,9,0.4), rgba(6,7,9,0.65));
   }
+  /*
+    Rotating background "scene" — purpose-built for the scroll-spin effect.
+    This is a perfect square sized to 220vmax (comfortably larger than the
+    viewport's diagonal), centered on the viewport. Because it's a true
+    square, its inradius stays constant through a full 360deg rotation, so
+    it can never expose an edge no matter how far it spins.
+    Each glow's position is expressed in calc() combining vw/vh (viewport-
+    relative) with a fixed vmax offset that re-centers those coordinates
+    onto this oversized box's own coordinate space — so at rest (0deg) the
+    layout matches the intended viewport-relative design exactly.
+  */
   body::after{
     content:"";
     position:fixed;
-    inset:0;
+    top:50%;
+    left:50%;
+    width:220vmax;
+    height:220vmax;
     z-index:-3;
-    transform-origin:center center;
-    transform:scale(1.6) rotate(var(--bg-rotate));
+    transform:translate(-50%,-50%) rotate(var(--bg-rotate));
     transition:transform 0.4s ease-out;
     will-change:transform;
     background:
-      linear-gradient(128deg, transparent 38%, rgba(6,32,34,0.85) 47%, rgba(6,32,34,0.85) 55%, transparent 64%),
-      radial-gradient(ellipse 55% 35% at 88% 6%, rgba(222,222,218,0.3), transparent 60%),
-      radial-gradient(circle at 50% 42%, rgba(252,97,3,0.26), transparent 55%),
-      radial-gradient(circle at 46% 96%, rgba(30,140,190,0.24), transparent 50%),
+      linear-gradient(125deg, transparent calc(50% - 34vmax), rgba(6,34,36,0.9) calc(50% - 9vmax), rgba(6,34,36,0.9) calc(50% + 9vmax), transparent calc(50% + 34vmax)),
+      radial-gradient(circle 34vmax at calc(32vw + 110vmax) calc(110vmax - 40vh), rgba(222,222,218,0.3), transparent 70%),
+      radial-gradient(circle 40vmax at 110vmax calc(110vmax - 8vh), rgba(252,97,3,0.26), transparent 70%),
+      radial-gradient(circle 38vmax at calc(110vmax - 4vw) calc(110vmax + 46vh), rgba(30,140,190,0.24), transparent 70%),
       linear-gradient(160deg, #0a0b0d 0%, #0e0f12 45%, #141517 100%);
   }
 
@@ -405,7 +413,7 @@
      back up. Tune MAX_ROTATION_DEG to make the spin more/less dramatic.
      ============================================================ */
   (function(){
-    const MAX_ROTATION_DEG = 35;
+    const MAX_ROTATION_DEG = 270; // 3/4 turn by the bottom of the page
     const root = document.documentElement;
     let ticking = false;
 
