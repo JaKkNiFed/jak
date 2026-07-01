@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jak — Content Moderation • Cyber-Security • Discord Dev</title>
+<meta name="description" content="Jak — Platform Content Moderation, Cyber-Security, and Discord Server/Bot Development. Links, communities, and contact.">
+
+<!-- Favicon: inline eye SVG so there's no external dependency -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230a0e14'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23ff7a30'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23000'/%3E%3Ccircle cx='44' cy='44' r='4' fill='%23fff'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0a0e14;
+    --bg-soft:#0f141d;
+    --panel:#121822;
+    --panel-border:#1f2937;
+    --orange:#ff7a30;
+    --orange-soft:#ffb380;
+    --cyan:#3fc6ff;
+    --cyan-soft:#9fe4ff;
+    --text:#e7edf5;
+    --text-dim:#8b97a8;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Mono', monospace;
+    line-height:1.6;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* circuit-board backdrop */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background-image:
+      linear-gradient(rgba(63,198,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(63,198,255,0.06) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse at 50% 20%, black 0%, transparent 75%);
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,122,48,0.10), transparent 40%),
+      radial-gradient(circle at 85% 25%, rgba(63,198,255,0.10), transparent 40%),
+      var(--bg);
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px;}
+
+  header.hero{
+    padding:72px 24px 48px;
+    text-align:center;
+  }
+
+  .avatar{
+    width:140px;height:140px;
+    border-radius:50%;
+    margin:0 auto 28px;
+    position:relative;
+    display:grid;place-items:center;
+    background:radial-gradient(circle at 35% 30%, var(--orange-soft), var(--orange) 45%, var(--cyan) 100%);
+    box-shadow:
+      0 0 0 4px var(--bg),
+      0 0 0 6px var(--panel-border),
+      0 0 40px rgba(255,122,48,0.45),
+      0 0 70px rgba(63,198,255,0.25);
+    animation:pulse 4s ease-in-out infinite;
+  }
+  .avatar img{
+    width:128px;height:128px;border-radius:50%;
+    object-fit:cover;
+    border:3px solid var(--bg);
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--panel-border),0 0 40px rgba(255,122,48,0.45),0 0 70px rgba(63,198,255,0.25);}
+    50%{box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--panel-border),0 0 55px rgba(255,122,48,0.65),0 0 90px rgba(63,198,255,0.4);}
+  }
+
+  h1.name{
+    font-family:'Orbitron',sans-serif;
+    font-weight:900;
+    font-size:clamp(2.2rem,7vw,3.4rem);
+    letter-spacing:3px;
+    background:linear-gradient(90deg,var(--orange-soft),var(--orange) 35%,var(--cyan) 75%,var(--cyan-soft));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 0 30px rgba(255,122,48,0.25);
+  }
+
+  .tagline{
+    max-width:560px;
+    margin:18px auto 0;
+    color:var(--text-dim);
+    font-size:0.95rem;
+  }
+
+  .username{
+    display:inline-block;
+    margin-top:14px;
+    font-size:0.8rem;
+    color:var(--cyan-soft);
+    letter-spacing:1px;
+    border:1px solid var(--panel-border);
+    background:rgba(63,198,255,0.06);
+    padding:4px 12px;
+    border-radius:999px;
+  }
+
+  section{padding:36px 24px;}
+  .section-title{
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--cyan-soft);
+    margin-bottom:20px;
+    text-align:center;
+  }
+  .section-title::before{content:"// ";color:var(--orange);}
+
+  /* social link grid */
+  .social-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:14px;
+    max-width:680px;
+    margin:0 auto;
+  }
+  .social-btn{
+    display:flex;align-items:center;gap:10px;justify-content:center;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    font-size:0.85rem;
+    font-weight:700;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .social-btn svg{width:18px;height:18px;flex:none;}
+  .social-btn:hover{
+    transform:translateY(-3px);
+    border-color:var(--orange);
+    box-shadow:0 8px 24px rgba(255,122,48,0.18);
+  }
+
+  /* services */
+  .services{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    max-width:840px;
+    margin:0 auto;
+  }
+  .service-card{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius);
+    padding:24px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .service-card::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--orange),var(--cyan));
+  }
+  .service-icon{
+    width:38px;height:38px;
+    display:grid;place-items:center;
+    margin-bottom:14px;
+    border-radius:10px;
+    background:rgba(255,122,48,0.1);
+    border:1px solid var(--panel-border);
+  }
+  .service-card h3{
+    font-family:'Orbitron',sans-serif;
+    font-size:1rem;
+    margin-bottom:8px;
+    color:var(--orange-soft);
+  }
+  .service-card p{font-size:0.85rem;color:var(--text-dim);}
+
+  /* communities */
+  .communities{
+    display:grid;
+    gap:12px;
+    max-width:680px;
+    margin:0 auto;
+  }
+  .community-card{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius);
+    padding:14px 18px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .community-card:hover{border-color:var(--cyan);transform:translateX(4px);}
+  .community-main{display:flex;flex-direction:column;gap:2px;}
+  .community-name{font-weight:700;font-size:0.9rem;}
+  .community-desc{font-size:0.75rem;color:var(--text-dim);max-width:420px;}
+  .community-meta{
+    display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none;
+    font-size:0.7rem;
+  }
+  .role-badge{
+    background:rgba(63,198,255,0.1);
+    border:1px solid var(--panel-border);
+    color:var(--cyan-soft);
+    padding:2px 8px;
+    border-radius:999px;
+  }
+  .member-count{color:var(--text-dim);}
+
+  footer{
+    text-align:center;
+    padding:48px 24px 64px;
+    color:var(--text-dim);
+    font-size:0.78rem;
+  }
+  footer a{color:var(--orange-soft);border-bottom:1px dotted var(--orange-soft);}
+  footer .time-link{margin-top:6px;display:inline-block;}
+
+  .placeholder-flag{
+    display:none;
+  }
+  body.show-placeholders .placeholder-flag{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.6rem;
+    color:#ffb380;
+    background:rgba(255,122,48,0.15);
+    border:1px solid var(--orange);
+    border-radius:4px;
+    padding:1px 5px;
+    vertical-align:middle;
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="avatar">
+      <img src="https://ugc.production.linktr.ee/e91c8b13-bd5b-4386-b62d-83a69522df8c_Orange-Eye.webp?io=true&size=avatar-v3_0" alt="Jak logo — cyber eye">
+    </div>
+    <h1 class="name">JAK</h1>
+    <p class="tagline">Ask questions or hire me for Platform Content Moderation, Cyber-Security, Discord Server/Bot Development, and more.</p>
+    <span class="username">@jakknifed</span>
+  </header>
+
+  <section id="links">
+    <div class="section-title">Find me</div>
+    <div class="social-grid" id="social-grid"></div>
+  </section>
+
+  <section id="services">
+    <div class="section-title">Hire me for</div>
+    <div class="services">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff7a30" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Platform Content Moderation</h3>
+        <p>Keeping communities safe and on-brand across Discord, social platforms, and live chat — policy enforcement, escalation handling, and moderator training.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3fc6ff" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>Cyber-Security</h3>
+        <p>Practical security awareness, account hardening, and risk assessments for creators, small teams, and online communities.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff7a30" stroke-width="2"><path d="M4 4h16v12H7l-3 3V4z"/><circle cx="9" cy="10" r="1" fill="#ff7a30"/><circle cx="13" cy="10" r="1" fill="#ff7a30"/><circle cx="17" cy="10" r="1" fill="#ff7a30"/></svg>
+        </div>
+        <h3>Discord Server &amp; Bot Development</h3>
+        <p>Server setup, role/permission structuring, custom bot features, and ongoing management for growing communities.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="communities">
+    <div class="section-title">Communities I'm part of</div>
+    <div class="communities" id="community-list"></div>
+  </section>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Jak. Built with circuits and caffeine.</p>
+    <a class="time-link" href="https://time.is/Illinois" target="_blank" rel="noopener">Check my current local time →</a>
+  </footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ============================================================
+     EDIT YOUR LINKS HERE — this is the only place you need to touch.
+     Replace each "#" with your real profile URL.
+     ============================================================ */
+  const SOCIAL_LINKS = [
+    { label: "Instagram", url: "https://www.instagram.com/jakknifed_", icon: "instagram" },
+    { label: "X",         url: "https://x.com/jakknifed", icon: "x" },
+    { label: "YouTube",   url: "https://www.youtube.com/@jakknifed", icon: "youtube" },
+    { label: "Twitch",    url: "https://www.twitch.tv/jakknifed_", icon: "twitch" },
+    { label: "TikTok",    url: "https://www.tiktok.com/@jakknifed", icon: "tiktok" },
+  ];
+
+  const ICONS = {
+    instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+    x: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3l7.5 9.5L3.5 21h2.7l6-6.8 4.8 6.8H21l-7.8-10L20 3h-2.7l-5.6 6.3L7 3H3z"/></svg>',
+    youtube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l6 3-6 3V9z" fill="currentColor" stroke="none"/></svg>',
+    twitch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 3h16v11l-4 4h-4l-3 3v-3H4V3z"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="16" y1="7" x2="16" y2="12"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 3h2.2c.3 1.7 1.6 3 3.3 3.3V8.5c-1.3 0-2.5-.4-3.5-1.1v6.4a5.4 5.4 0 1 1-5.4-5.4c.2 0 .4 0 .6.03v2.3a3.1 3.1 0 1 0 2.2 3V3z"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  };
+
+  const grid = document.getElementById('social-grid');
+  SOCIAL_LINKS.forEach(link => {
+    const a = document.createElement('a');
+    a.href = link.url;
+    a.className = 'social-btn';
+    a.target = link.url.startsWith('mailto:') ? '_self' : '_blank';
+    a.rel = 'noopener';
+    const isPlaceholder = link.url === '#';
+    a.innerHTML = `${ICONS[link.icon]}<span>${link.label}</span>${isPlaceholder ? '<span class="placeholder-flag">edit me</span>' : ''}`;
+    grid.appendChild(a);
+  });
+
+  /* ============================================================
+     Discord communities — pulled directly from your Linktree.
+     Edit or remove entries as needed.
+     ============================================================ */
+  const COMMUNITIES = [
+    { name: "Euphoria", role: "Management", url: "https://discord.gg/xBuNde7SKd", desc: "PUBGM gaming community — weekly scrims & events.", members: "3,737 members" },
+    { name: "Eric Parker", role: "Management", url: "https://discord.gg/ericparker", desc: "Tech & cybersecurity awareness YouTube community.", members: "5,740 members" },
+    { name: "The Green Room (Rhett Shull)", role: "Management", url: "https://discord.gg/6maR5gbEye", desc: "A place for guitar nerds to connect and learn.", members: "1,395 members" },
+    { name: "Jacob Gaming", role: "Admin", url: "https://discord.gg/xJksvKs", desc: "Discord server owned by Jacob Gaming BOAT.", members: "6,238 members" },
+    { name: "OG Dark", role: "Community Manager", url: "https://discord.gg/TVpzTKCc6s", desc: "", members: "" },
+    { name: "CyberTech Talks", role: "Staff Team", url: "https://discord.gg/SvnyDrVYC3", desc: "Hang out and enjoy free voice and text chat.", members: "540 members" },
+    { name: "TPSC", role: "Tech Support Helper", url: "https://discord.gg/zp3vX2Z9", desc: "", members: "" },
+  ];
+
+  const list = document.getElementById('community-list');
+  COMMUNITIES.forEach(c => {
+    const a = document.createElement('a');
+    a.href = c.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'community-card';
+    a.innerHTML = `
+      <div class="community-main">
+        <span class="community-name">${c.name}</span>
+        ${c.desc ? `<span class="community-desc">${c.desc}</span>` : ''}
+      </div>
+      <div class="community-meta">
+        <span class="role-badge">${c.role}</span>
+        ${c.members ? `<span class="member-count">${c.members}</span>` : ''}
+      </div>`;
+    list.appendChild(a);
+  });
+</script>
+</body>
+</html>
