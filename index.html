@@ -26,6 +26,7 @@
     --text:#f3f2ef;
     --text-dim:#e6e5e2;
     --radius:14px;
+    --bg-rotate:0deg;
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -42,11 +43,16 @@
   }
 
   /* soft photographic-style backdrop, darkened for readability */
+  /* oversized + rotated via a scroll-linked CSS variable, scale gives buffer so rotation never exposes edges */
   body::before{
     content:"";
     position:fixed;
     inset:0;
     z-index:-2;
+    transform-origin:center center;
+    transform:scale(1.6) rotate(var(--bg-rotate));
+    transition:transform 0.4s ease-out;
+    will-change:transform;
     background:linear-gradient(180deg, rgba(6,7,9,0.4), rgba(6,7,9,0.65));
   }
   body::after{
@@ -54,6 +60,10 @@
     position:fixed;
     inset:0;
     z-index:-3;
+    transform-origin:center center;
+    transform:scale(1.6) rotate(var(--bg-rotate));
+    transition:transform 0.4s ease-out;
+    will-change:transform;
     background:
       linear-gradient(128deg, transparent 38%, rgba(6,32,34,0.85) 47%, rgba(6,32,34,0.85) 55%, transparent 64%),
       radial-gradient(ellipse 55% 35% at 88% 6%, rgba(222,222,218,0.3), transparent 60%),
@@ -388,6 +398,36 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ============================================================
+     Scroll-linked background spin — rotates the background clockwise
+     as the page scrolls down, and unwinds back to 0deg as you scroll
+     back up. Tune MAX_ROTATION_DEG to make the spin more/less dramatic.
+     ============================================================ */
+  (function(){
+    const MAX_ROTATION_DEG = 35;
+    const root = document.documentElement;
+    let ticking = false;
+
+    function applyRotation(){
+      const maxScroll = root.scrollHeight - window.innerHeight;
+      const frac = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+      const angle = (frac * MAX_ROTATION_DEG).toFixed(2);
+      root.style.setProperty('--bg-rotate', angle + 'deg');
+      ticking = false;
+    }
+
+    function onScroll(){
+      if (!ticking){
+        requestAnimationFrame(applyRotation);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', applyRotation);
+    applyRotation();
+  })();
 
   /* ============================================================
      EDIT YOUR LINKS HERE — this is the only place you need to touch.
