@@ -7,7 +7,7 @@
 <meta name="description" content="Jak — Platform Content Moderation, Cyber-Security, and Discord Server/Bot Development. Links, communities, and contact.">
 
 <!-- Favicon: inline eye SVG so there's no external dependency -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230a0e14'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23ff7a30'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23000'/%3E%3Ccircle cx='44' cy='44' r='4' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%2308090c'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23fc6103'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23000'/%3E%3Ccircle cx='44' cy='44' r='4' fill='%23fff'/%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,16 +15,16 @@
 
 <style>
   :root{
-    --bg:#0a0e14;
+    --bg:#08090c;
     --bg-soft:#0f141d;
-    --panel:#121822;
-    --panel-border:#1f2937;
-    --orange:#ff7a30;
-    --orange-soft:#ffb380;
-    --cyan:#3fc6ff;
-    --cyan-soft:#9fe4ff;
-    --text:#e7edf5;
-    --text-dim:#8b97a8;
+    --panel:rgba(20,21,24,0.55);
+    --panel-border:rgba(255,255,255,0.08);
+    --orange:#fc6103;
+    --orange-soft:#ff9142;
+    --cyan:#3a7ea3;
+    --cyan-soft:#7fb8d6;
+    --text:#f3f2ef;
+    --text-dim:#9a9a97;
     --radius:14px;
   }
 
@@ -41,17 +41,13 @@
     position:relative;
   }
 
-  /* circuit-board backdrop */
+  /* soft photographic-style backdrop, darkened for readability */
   body::before{
     content:"";
     position:fixed;
     inset:0;
     z-index:-2;
-    background-image:
-      linear-gradient(rgba(63,198,255,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(63,198,255,0.06) 1px, transparent 1px);
-    background-size:42px 42px;
-    mask-image:radial-gradient(ellipse at 50% 20%, black 0%, transparent 75%);
+    background:linear-gradient(180deg, rgba(6,7,9,0.55), rgba(6,7,9,0.8));
   }
   body::after{
     content:"";
@@ -59,9 +55,10 @@
     inset:0;
     z-index:-3;
     background:
-      radial-gradient(circle at 15% 10%, rgba(255,122,48,0.10), transparent 40%),
-      radial-gradient(circle at 85% 25%, rgba(63,198,255,0.10), transparent 40%),
-      var(--bg);
+      radial-gradient(ellipse 55% 35% at 88% 6%, rgba(220,220,216,0.16), transparent 60%),
+      radial-gradient(circle at 50% 42%, rgba(252,97,3,0.14), transparent 55%),
+      radial-gradient(circle at 46% 96%, rgba(30,140,190,0.12), transparent 50%),
+      linear-gradient(160deg, #06070a 0%, #0a0b0e 45%, #101113 100%);
   }
 
   a{color:inherit;text-decoration:none;}
@@ -79,22 +76,16 @@
     margin:0 auto 28px;
     position:relative;
     display:grid;place-items:center;
-    background:radial-gradient(circle at 35% 30%, var(--orange-soft), var(--orange) 45%, var(--cyan) 100%);
+    background:var(--bg-soft);
     box-shadow:
-      0 0 0 4px var(--bg),
-      0 0 0 6px var(--panel-border),
-      0 0 40px rgba(255,122,48,0.45),
-      0 0 70px rgba(63,198,255,0.25);
-    animation:pulse 4s ease-in-out infinite;
+      0 0 0 3px var(--bg),
+      0 0 0 4px rgba(252,97,3,0.4),
+      0 0 30px rgba(252,97,3,0.2);
   }
   .avatar img{
     width:128px;height:128px;border-radius:50%;
     object-fit:cover;
     border:3px solid var(--bg);
-  }
-  @keyframes pulse{
-    0%,100%{box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--panel-border),0 0 40px rgba(255,122,48,0.45),0 0 70px rgba(63,198,255,0.25);}
-    50%{box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--panel-border),0 0 55px rgba(255,122,48,0.65),0 0 90px rgba(63,198,255,0.4);}
   }
 
   h1.name{
@@ -102,11 +93,7 @@
     font-weight:900;
     font-size:clamp(2.2rem,7vw,3.4rem);
     letter-spacing:3px;
-    background:linear-gradient(90deg,var(--orange-soft),var(--orange) 35%,var(--cyan) 75%,var(--cyan-soft));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-    text-shadow:0 0 30px rgba(255,122,48,0.25);
+    color:var(--orange);
   }
 
   .tagline{
@@ -120,10 +107,10 @@
     display:inline-block;
     margin-top:14px;
     font-size:0.8rem;
-    color:var(--cyan-soft);
+    color:var(--text);
     letter-spacing:1px;
     border:1px solid var(--panel-border);
-    background:rgba(63,198,255,0.06);
+    background:rgba(255,255,255,0.04);
     padding:4px 12px;
     border-radius:999px;
   }
@@ -135,7 +122,7 @@
     font-size:0.85rem;
     letter-spacing:4px;
     text-transform:uppercase;
-    color:var(--cyan-soft);
+    color:var(--text);
     margin-bottom:20px;
     text-align:center;
   }
@@ -154,6 +141,8 @@
     flex:1 1 0;
     min-width:0;
     background:var(--panel);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     border:1px solid var(--panel-border);
     border-radius:var(--radius);
     padding:14px 10px;
@@ -189,6 +178,8 @@
   }
   .service-card{
     background:var(--panel);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     border:1px solid var(--panel-border);
     border-radius:var(--radius);
     padding:24px 20px;
@@ -198,7 +189,7 @@
   .service-card::before{
     content:"";
     position:absolute;top:0;left:0;right:0;height:3px;
-    background:linear-gradient(90deg,var(--orange),var(--cyan));
+    background:var(--orange);
   }
   .service-icon{
     width:38px;height:38px;
@@ -226,12 +217,14 @@
   .community-card{
     display:flex;justify-content:space-between;align-items:center;gap:12px;
     background:var(--panel);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     border:1px solid var(--panel-border);
     border-radius:var(--radius);
     padding:14px 18px;
     transition:border-color .15s ease, transform .15s ease;
   }
-  .community-card:hover{border-color:var(--cyan);transform:translateX(4px);}
+  .community-card:hover{border-color:var(--orange);transform:translateX(4px);}
   .community-main{display:flex;flex-direction:column;gap:2px;}
   .community-name{font-weight:700;font-size:0.9rem;}
   .community-desc{font-size:0.75rem;color:var(--text-dim);max-width:420px;}
@@ -240,9 +233,9 @@
     font-size:0.7rem;
   }
   .role-badge{
-    background:rgba(63,198,255,0.1);
+    background:rgba(252,97,3,0.1);
     border:1px solid var(--panel-border);
-    color:var(--cyan-soft);
+    color:var(--orange-soft);
     padding:2px 8px;
     border-radius:999px;
   }
@@ -294,21 +287,21 @@
     <div class="services">
       <div class="service-card">
         <div class="service-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff7a30" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fc6103" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
         </div>
         <h3>Platform Content Moderation</h3>
         <p>Keeping communities safe and on-brand across Discord, social platforms, and live chat — policy enforcement, escalation handling, and moderator training.</p>
       </div>
       <div class="service-card">
         <div class="service-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3fc6ff" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fc6103" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
         <h3>Cyber-Security</h3>
         <p>Practical security awareness, account hardening, and risk assessments for creators, small teams, and online communities.</p>
       </div>
       <div class="service-card">
         <div class="service-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff7a30" stroke-width="2"><path d="M4 4h16v12H7l-3 3V4z"/><circle cx="9" cy="10" r="1" fill="#ff7a30"/><circle cx="13" cy="10" r="1" fill="#ff7a30"/><circle cx="17" cy="10" r="1" fill="#ff7a30"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fc6103" stroke-width="2"><path d="M4 4h16v12H7l-3 3V4z"/><circle cx="9" cy="10" r="1" fill="#fc6103"/><circle cx="13" cy="10" r="1" fill="#fc6103"/><circle cx="17" cy="10" r="1" fill="#fc6103"/></svg>
         </div>
         <h3>Discord Server &amp; Bot Development</h3>
         <p>Server setup, role/permission structuring, custom bot features, and ongoing management for growing communities.</p>
