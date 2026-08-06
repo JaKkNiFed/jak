@@ -397,7 +397,50 @@
     font-size:0.78rem;
   }
   footer a{color:var(--orange-soft);border-bottom:1px dotted var(--orange-soft);}
-  footer .time-link{margin-top:6px;display:inline-block;}
+
+  /* local time widget */
+  .local-time-widget{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    background:var(--panel);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--panel-border);
+    border-radius:999px;
+    padding:9px 18px;
+    margin-bottom:20px;
+  }
+  .local-time-widget .live-dot{
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--orange);
+    flex:none;
+    box-shadow:0 0 6px 1px rgba(252,97,3,0.6);
+    animation:local-time-pulse 2s ease-in-out infinite;
+  }
+  .local-time-widget .local-time-label{
+    color:var(--text-dim);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    font-size:0.62rem;
+  }
+  .local-time-widget .local-time-value{
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    font-size:0.85rem;
+    color:var(--orange-soft);
+    letter-spacing:0.5px;
+    min-width:7.5em;
+    text-align:left;
+  }
+  @keyframes local-time-pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.3; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .local-time-widget .live-dot{ animation:none; }
+  }
 
   .placeholder-flag{
     display:none;
@@ -494,12 +537,42 @@
   </section>
 
   <footer>
-    <p>&copy; <span id="year"></span> Jak. Built with circuits and caffeine.</p>
-    <a class="time-link" href="https://time.is/Illinois" target="_blank" rel="noopener">Check my current local time →</a>
+    <div class="local-time-widget" aria-live="polite">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span class="local-time-label">Jak's local time</span>
+      <span class="local-time-value" id="local-time-value">--:--:-- --</span>
+    </div>
+    <p>&copy; <span id="year"></span> Jak.</p>
   </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ============================================================
+     Local time widget — live clock showing Jak's local time
+     (Illinois / America-Chicago), ticking every second regardless
+     of the visitor's own timezone.
+     ============================================================ */
+  (function(){
+    const el = document.getElementById('local-time-value');
+    if (!el) return;
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Chicago',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZoneName: 'short'
+    });
+
+    function tick(){
+      el.textContent = formatter.format(new Date());
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  })();
 
   /* ============================================================
      "Power Surge" ambient ember field — floating orange embers drift
