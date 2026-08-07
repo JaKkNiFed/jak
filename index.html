@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jak — Content Moderation • Discord Dev • Gaming Communities</title>
-<meta name="description" content="Jak — Platform Content Moderation and Discord Server/Bot Development. Trusted by Supercell (Clash of Clans), Call of Duty Mobile, Delta Force, PUBG Mobile, and Aftershock Media Group.">
+<meta name="description" content="Jak — Platform Content Moderation and Discord Server/Bot Development. Trusted by Supercell (Clash of Clans), Call of Duty Mobile, Delta Force, PUBG Mobile, Aftershock Media Group, and Ubisoft.">
 
 <!-- Favicon: inline eye SVG so there's no external dependency -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%2308090c'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23fc6103'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23000'/%3E%3Ccircle cx='44' cy='44' r='4' fill='%23fff'/%3E%3C/svg%3E">
@@ -456,6 +456,112 @@
     padding:1px 5px;
     vertical-align:middle;
   }
+
+  /* proof of performance tabs */
+  .pop-intro{
+    text-align:center;
+    max-width:560px;
+    margin:0 auto 22px;
+    font-size:0.82rem;
+    color:var(--text-dim);
+  }
+  .pop-sample-tag{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.6rem;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    color:#ffb380;
+    background:rgba(255,122,48,0.15);
+    border:1px solid var(--orange);
+    border-radius:4px;
+    padding:1px 6px;
+    vertical-align:middle;
+  }
+  .pop-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    max-width:760px;
+    margin:0 auto 24px;
+  }
+  .pop-tab{
+    background:var(--panel);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--panel-border);
+    border-radius:999px;
+    padding:8px 16px;
+    font-family:'Space Mono', monospace;
+    font-size:0.78rem;
+    font-weight:700;
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, transform .15s ease, background .15s ease;
+  }
+  .pop-tab:hover{color:var(--text);transform:translateY(-2px);}
+  .pop-tab.active{
+    color:var(--bg);
+    background:var(--orange);
+    border-color:var(--orange);
+  }
+  .pop-panels{max-width:760px;margin:0 auto;}
+  .pop-panel{
+    display:none;
+    background:var(--panel);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border:1px solid var(--panel-border);
+    border-radius:var(--radius);
+    padding:26px 24px;
+  }
+  .pop-panel.active{display:block;}
+  .pop-stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:14px;
+    margin-bottom:20px;
+  }
+  .pop-stat{
+    text-align:center;
+    padding:14px 10px;
+    border:1px solid var(--panel-border);
+    border-radius:10px;
+    background:rgba(255,255,255,0.02);
+  }
+  .pop-stat-value{
+    display:block;
+    font-family:'Orbitron',sans-serif;
+    font-weight:900;
+    font-size:1.4rem;
+    color:var(--orange-soft);
+  }
+  .pop-stat-label{
+    display:block;
+    margin-top:4px;
+    font-size:0.66rem;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .pop-quote{
+    border-left:3px solid var(--orange);
+    padding-left:16px;
+    font-size:0.88rem;
+    font-style:italic;
+    color:var(--text);
+  }
+  .pop-quote-author{
+    display:block;
+    margin-top:10px;
+    font-size:0.72rem;
+    font-style:normal;
+    color:var(--text-dim);
+  }
+  @media (max-width:560px){
+    .pop-tab{padding:7px 12px;font-size:0.7rem;}
+  }
 </style>
 </head>
 <body>
@@ -465,7 +571,7 @@
       <img src="https://ugc.production.linktr.ee/e91c8b13-bd5b-4386-b62d-83a69522df8c_Orange-Eye.webp?io=true&size=avatar-v3_0" alt="Jak logo — cyber eye">
     </div>
     <h1 class="name">JAK</h1>
-    <p class="tagline">Ask questions or hire me for Platform Content Moderation and Discord Server/Bot Development — trusted by teams behind Clash of Clans, Call of Duty Mobile, Delta Force, PUBG Mobile, and Aftershock Media Group.</p>
+    <p class="tagline">Ask questions or hire me for Platform Content Moderation and Discord Server/Bot Development — trusted by teams behind Clash of Clans, Call of Duty Mobile, Delta Force, PUBG Mobile, Aftershock Media Group, and Ubisoft.</p>
     <span class="username">@jakknifed</span>
 
     <div class="capability-banner">
@@ -528,7 +634,15 @@
       <a class="trusted-chip" href="https://deltaforce.garena.com/en/" target="_blank" rel="noopener"><span class="dot"></span>Delta Force</a>
       <a class="trusted-chip" href="https://www.pubgmobile.com/en/home/" target="_blank" rel="noopener"><span class="dot"></span>PUBG Mobile</a>
       <a class="trusted-chip" href="https://www.amg.gg/" target="_blank" rel="noopener"><span class="dot"></span>Aftershock Media Group</a>
+      <a class="trusted-chip" href="https://www.ubisoft.com/" target="_blank" rel="noopener"><span class="dot"></span>Ubisoft</a>
     </div>
+  </section>
+
+  <section id="proof">
+    <div class="section-title">Proof of performance</div>
+    <p class="pop-intro">A quick look at the impact behind each partnership.<span class="pop-sample-tag">Sample data — swap in real numbers</span></p>
+    <div class="pop-tabs" id="pop-tabs" role="tablist" aria-label="Proof of performance by client"></div>
+    <div class="pop-panels" id="pop-panels"></div>
   </section>
 
   <section id="communities">
@@ -746,6 +860,133 @@
       </div>`;
     list.appendChild(a);
   });
+
+  /* ============================================================
+     PROOF OF PERFORMANCE — EDIT THIS WITH YOUR REAL NUMBERS.
+     Everything below (stat values, quotes, authors) is sample/
+     placeholder content. Swap each "—" and quote line for the
+     real figures and testimonials once you have them, then delete
+     the "Sample data" tag above the tabs in the HTML.
+     One entry per client, in the same order as the Trusted-by row.
+     ============================================================ */
+  const POP_CLIENTS = [
+    {
+      id: "supercell",
+      name: "Supercell",
+      stats: [
+        { value: "—", label: "Servers moderated" },
+        { value: "—", label: "Reports resolved" },
+        { value: "—", label: "Avg. response time" },
+      ],
+      quote: "Sample quote — replace with real feedback from this client.",
+      author: "— Placeholder, Supercell"
+    },
+    {
+      id: "codm",
+      name: "Call of Duty Mobile",
+      stats: [
+        { value: "—", label: "Members managed" },
+        { value: "—", label: "Incidents handled" },
+        { value: "—", label: "Uptime" },
+      ],
+      quote: "Sample quote — replace with real feedback from this client.",
+      author: "— Placeholder, Call of Duty Mobile"
+    },
+    {
+      id: "deltaforce",
+      name: "Delta Force",
+      stats: [
+        { value: "—", label: "Servers moderated" },
+        { value: "—", label: "Reports resolved" },
+        { value: "—", label: "Avg. response time" },
+      ],
+      quote: "Sample quote — replace with real feedback from this client.",
+      author: "— Placeholder, Delta Force"
+    },
+    {
+      id: "pubgm",
+      name: "PUBG Mobile",
+      stats: [
+        { value: "—", label: "Members managed" },
+        { value: "—", label: "Events run" },
+        { value: "—", label: "Retention lift" },
+      ],
+      quote: "Sample quote — replace with real feedback from this client.",
+      author: "— Placeholder, PUBG Mobile"
+    },
+    {
+      id: "amg",
+      name: "Aftershock Media Group",
+      stats: [
+        { value: "—", label: "Projects delivered" },
+        { value: "—", label: "Bots built" },
+        { value: "—", label: "Client rating" },
+      ],
+      quote: "Sample quote — replace with real feedback from this client.",
+      author: "— Placeholder, Aftershock Media Group"
+    },
+    {
+      id: "ubisoft",
+      name: "Ubisoft",
+      stats: [
+        { value: "—", label: "Servers moderated" },
+        { value: "—", label: "Reports resolved" },
+        { value: "—", label: "Avg. response time" },
+      ],
+      quote: "Sample quote — replace with real feedback from this client.",
+      author: "— Placeholder, Ubisoft"
+    },
+  ];
+
+  const popTabsEl = document.getElementById('pop-tabs');
+  const popPanelsEl = document.getElementById('pop-panels');
+
+  function activatePopTab(id){
+    popTabsEl.querySelectorAll('.pop-tab').forEach(t => {
+      const isMatch = t.dataset.popId === id;
+      t.classList.toggle('active', isMatch);
+      t.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+    });
+    popPanelsEl.querySelectorAll('.pop-panel').forEach(p => {
+      p.classList.toggle('active', p.dataset.popId === id);
+    });
+  }
+
+  if (popTabsEl && popPanelsEl){
+    POP_CLIENTS.forEach((client, i) => {
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'pop-tab' + (i === 0 ? ' active' : '');
+      tab.textContent = client.name;
+      tab.dataset.popId = client.id;
+      tab.setAttribute('role', 'tab');
+      tab.id = `pop-tab-${client.id}`;
+      tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      tab.setAttribute('aria-controls', `pop-panel-${client.id}`);
+      tab.addEventListener('click', () => activatePopTab(client.id));
+      popTabsEl.appendChild(tab);
+
+      const panel = document.createElement('div');
+      panel.className = 'pop-panel' + (i === 0 ? ' active' : '');
+      panel.id = `pop-panel-${client.id}`;
+      panel.dataset.popId = client.id;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', `pop-tab-${client.id}`);
+      panel.innerHTML = `
+        <div class="pop-stats">
+          ${client.stats.map(s => `
+            <div class="pop-stat">
+              <span class="pop-stat-value">${s.value}</span>
+              <span class="pop-stat-label">${s.label}</span>
+            </div>`).join('')}
+        </div>
+        <blockquote class="pop-quote">
+          "${client.quote}"
+          <span class="pop-quote-author">${client.author}</span>
+        </blockquote>`;
+      popPanelsEl.appendChild(panel);
+    });
+  }
 </script>
 </body>
 </html>
